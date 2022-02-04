@@ -22,6 +22,7 @@ resource "aws_vpc" "vpc_brq" {
   }
 }
 
+
 #Definindo a porta de entrada
 resource "aws_internet_gateway" "gw_brq" {
   vpc_id = aws_vpc.vpc_brq.id
@@ -131,9 +132,16 @@ resource "aws_eip" "ip_publico" {
   }
 }
 
+#Criando variável que armazena ami da imagem Ubuntu
+variable "Image_Ubuntu20_04LTS" {
+ description = "Ubuntu image"
+ type        = string
+ default     = "ami-04505e74c0741db8d"
+}
+
 #Definindo uma instância associada a interface de rede
 resource "aws_instance" "app_web" {
-  ami               = "ami-04505e74c0741db8d"
+  ami               =  var.Image_Ubuntu20_04LTS
   instance_type     = "t2.micro"
   availability_zone = "us-east-1a"
   network_interface {
